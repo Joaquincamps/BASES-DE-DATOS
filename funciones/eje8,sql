@@ -1,0 +1,17 @@
+#Función: Crea una función llamada calcularCostoTotalPedido que 
+#calcule el costo total de un pedido basado en los productos y cantidades en la tabla DetallePedidos.
+delimiter $$
+drop function if exists eje8;$$
+create function eje8(cod int (11))
+returns decimal(15,2)
+begin
+	declare total decimal(15,2);
+	declare total1 int;
+    
+    select sum(Cantidad) into total1 from DetallePedidos where CodigoProducto=cod;
+    if total1 is not null then 
+		select sum(Cantidad * PrecioUnidad) into total from DetallePedidos where CodigoProducto=cod;
+    end if;
+    return total;
+end$$
+select eje8 (9);
